@@ -62,7 +62,7 @@ fn create_md5(in_path:&String,out_path:&String){
     let mut bw = BufWriter::new(out_file);
     for line in br.lines() {
         let line = line.unwrap().trim().to_string();
-        println!("{}", &line);
+        // println!("{}", &line);
         if line.is_empty(){
             continue;
         }
@@ -70,7 +70,7 @@ fn create_md5(in_path:&String,out_path:&String){
         let mut md5 = Md5::new();
         md5.input_str(&line);
         let md5_str = md5.result_str();
-        println!("md5_str:{}",md5_str);
+        // println!("md5_str:{}",md5_str);
 
         let new_line=format!("{}\n",md5_str);
 
@@ -104,7 +104,7 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
     let md5_br = BufReader::new(md5_file);
     for line in md5_br.lines() {
         let line = line.unwrap().trim().to_string();
-        println!("md5_file:{}", &line);
+        // println!("md5_file:{}", &line);
         if line.is_empty(){
             continue;
         }
@@ -117,7 +117,7 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
     let mut bw = BufWriter::new(out_file);
     for line in br.lines() {
         let line = line.unwrap().trim().to_string();
-        println!("in:{}", &line);
+        // println!("in:{}", &line);
         if line.is_empty(){
             continue;
         }
@@ -126,7 +126,7 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
             let new_line=format!("{}\n",line);
             bw.write_all(new_line.as_bytes()).unwrap();
         }else{
-            print!("not exist:{}",&line);
+            // print!("not exist:{}",&line);
         }
     }
     bw.flush().unwrap();
