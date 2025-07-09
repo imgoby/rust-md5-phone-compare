@@ -26,6 +26,7 @@ fn main() {
         let in_path=args.get(2).unwrap();
         let out_path=args.get(3).unwrap();
 
+        println!("生成md5库文件,输入文件：{}，输出文件：{}",in_path,out_path);
         create_md5(in_path,out_path);
     }else if action=="cmp"{
         if args.len()<5{
@@ -37,6 +38,7 @@ fn main() {
         let in_path=args.get(3).unwrap();
         let out_path=args.get(4).unwrap();
 
+        println!("比较文件,本地md5库文件：{}，输入文件：{}，输出文件：{}",md5_path,in_path,out_path);
         cmp_md5(md5_path,in_path,out_path);
     }else{
         println!("不支持的命令:{}，仅支持：md5、cmp",action);
