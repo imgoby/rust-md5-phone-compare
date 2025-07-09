@@ -6,6 +6,7 @@ use std::error::Error;
 use std::io::{BufWriter, Write};
 use std::env;
 use std::collections::HashMap;
+use std::time::Instant;
 
 
 
@@ -27,6 +28,7 @@ fn main() {
         let out_path=args.get(3).unwrap();
 
         println!("生成md5库文件,输入文件：{}，输出文件：{}",in_path,out_path);
+     
         create_md5(in_path,out_path);
     }else if action=="cmp"{
         if args.len()<5{
@@ -56,8 +58,9 @@ fn create_md5(in_path:&String,out_path:&String){
         }
     };
 
+    let start = Instant::now();
+
     let br = BufReader::new(in_file);
- 
     let out_file = File::create(out_path).unwrap();
     let mut bw = BufWriter::new(out_file);
     for line in br.lines() {
@@ -77,6 +80,8 @@ fn create_md5(in_path:&String,out_path:&String){
         bw.write_all(new_line.as_bytes()).unwrap();
     }
     bw.flush().unwrap();
+    let duration = start.elapsed();
+    println!("花费时间: {:?}", duration);
 }
 
 
@@ -99,6 +104,8 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
             return;
         }
     };
+    
+    let start = Instant::now();
 
     let mut md5_phones = HashMap::new();
     let md5_br = BufReader::new(md5_file);
@@ -112,6 +119,10 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
         md5_phones.insert(line, 1);
     }
 
+    let duration = start.elapsed();
+    println!("生产md5临时缓存，花费时间: {:?}", duration);
+
+    let start = Instant::now();
     let br = BufReader::new(in_file);
     let out_file = File::create(out_path).unwrap();
     let mut bw = BufWriter::new(out_file);
@@ -130,4 +141,7 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
         }
     }
     bw.flush().unwrap();
+    let duration = start.elapsed();
+    println!("比较md5文件，花费时间: {:?}", duration);
+  
 }
