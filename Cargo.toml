@@ -1,0 +1,6 @@
+[package]
+name = "rust-md5-phone-compare"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
