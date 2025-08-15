@@ -117,7 +117,7 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
         }
 
         let arr:Vec<&str>=line.split(",").collect();
-        if arr.len()>2{
+        if arr.len()>=2{
             let md5=arr.get(0).unwrap().to_string();
             let phone=arr.get(1).unwrap().to_string();
 
