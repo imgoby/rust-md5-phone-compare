@@ -75,7 +75,7 @@ fn create_md5(in_path:&String,out_path:&String){
         let md5_str = md5.result_str();
         // println!("md5_str:{}",md5_str);
 
-        let new_line=format!("{}\n",md5_str);
+        let new_line=format!("{},{}\n",md5_str,&line);
 
         bw.write_all(new_line.as_bytes()).unwrap();
     }
@@ -116,7 +116,13 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
             continue;
         }
 
-        md5_phones.insert(line, 1);
+        let arr:Vec<&str>=line.split(",").collect();
+        if arr.len()>2{
+            let md5=arr.get(0).unwrap().to_string();
+            let phone=arr.get(1).unwrap().to_string();
+
+            md5_phones.insert(md5, phone);
+        }
     }
 
     let duration = start.elapsed();
@@ -133,8 +139,8 @@ fn cmp_md5(md5_path:&String,in_path:&String,out_path:&String){
             continue;
         }
 
-        if let Some(v) = md5_phones.get(&line) {
-            let new_line=format!("{}\n",line);
+        if let Some(phone) = md5_phones.get(&line) {
+            let new_line=format!("{},{}\n",phone,line);
             bw.write_all(new_line.as_bytes()).unwrap();
         }else{
             // print!("not exist:{}",&line);
